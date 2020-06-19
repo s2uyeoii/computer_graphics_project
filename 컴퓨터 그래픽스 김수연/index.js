@@ -70,7 +70,7 @@ function initGL() {
 	gl = WebGLUtils.setupWebGL(canvas)
 	if (!gl) { alert("WebGL isn't available") }
 
-	gl.clearColor(0.0, 0.1, 0.3, 1.0) //¹è°æ »ö»ó ¼öÁ¤
+	gl.clearColor(0.0, 0.1, 0.3, 1.0) //ë°°ê²½ ìƒ‰ìƒ ìˆ˜ì •
 	gl.clear(gl.COLOR_BUFFER_BIT)
 
 	/* Get vertex/fragment shaders */
@@ -102,7 +102,7 @@ function initGL() {
 	gl.bindBuffer(gl.ARRAY_BUFFER, bufferStarLayer3)
 	gl.bufferData(gl.ARRAY_BUFFER, flatten(starLayer3), gl.STATIC_DRAW)
 
-	/* ¸¶¿ì½º ¿òÁ÷ÀÏ¶§ ¸¶´Ù È¸Àü ÇÏµµ·Ï ±¸Çö  */
+	/* ë§ˆìš°ìŠ¤ ì›€ì§ì¼ë•Œ ë§ˆë‹¤ íšŒì „ í•˜ë„ë¡ êµ¬í˜„  */
 	document.addEventListener("mousemove", e => {
 		mouseX = map(e.clientX, 0, canvas.clientWidth, -1, 1)
 		mouseY = map(e.clientY, 0, canvas.clientHeight, 1, -1)
@@ -131,7 +131,7 @@ function initGL() {
 	for (let i = 0; i < numEnemies; i++) {
 		// Put enemies outside edges of playable area
 		let randX = (Math.random() - 0.6) * 2
-		let randY = (Math.random() - 0.6) * 2 // ÀûµéÀÌ ³¯¾Æ¿À´Â random locationÀ» ´õ ³Ð°Ô ¼³Á¤
+		let randY = (Math.random() - 0.6) * 2 // ì ë“¤ì´ ë‚ ì•„ì˜¤ëŠ” random locationì„ ë” ë„“ê²Œ ì„¤ì •
 		if (randX < 0) {
 			randX -= 1.0
 		} else {
@@ -143,8 +143,8 @@ function initGL() {
 			randY += 1.0
 		}
 		const sizeFactor = Math.random() * 0.1 + 0.03
-		const minVelocity = 0.0003 //ÃÖÀú¼Óµµ ´À¸®°Ô
-		const maxVelocity = 0.002 //ÃÖ°í¼Óµµ¸¦ ´À¸®°Ô 
+		const minVelocity = 0.0003 //ìµœì €ì†ë„ ëŠë¦¬ê²Œ
+		const maxVelocity = 0.002 //ìµœê³ ì†ë„ë¥¼ ëŠë¦¬ê²Œ 
 		const randVelocity = (Math.random() * maxVelocity) + minVelocity
 		entities.push(new Enemy(randX, randY, randVelocity, randVelocity, getEnemyShape(sizeFactor), sizeFactor))
 	}
@@ -237,6 +237,7 @@ function updateCamera() {
 	cameraX = constrain(playerShip.x, -1.0 + cameraWidth, 1.0 - cameraWidth)
 	cameraY = constrain(playerShip.y, -1.0 + cameraHeight, 1.0 - cameraHeight)
 }
+//ì œí•œëœ ë²”ìœ„ë‚´ì—ì„œ ì¹´ë©”ë¼ê°€ ë§ˆìš°ìŠ¤ì™€ í‚¤ë³´ë“œë¥¼ ìž˜ ë”°ë¼ê°€ë„ë¡ ì´ˆê¸°í™” ìž‘ì—… ì§„í–‰ 
 
 function render() {
 	requestAnimationFrame(render)
@@ -309,12 +310,12 @@ class Ship extends Entity {
 		super(initialX, initialY, initialXv, initialYv, shapeData)
 		this.hpBox = null
 		// this.health = 100
-		this.colors = initColors(this.points.length, 1, 1, 0.1, 1) //shipÀÇ »ö»ó ´«¿¡ Àß¶ç´Â ³ë¶û»öÀ¸·Î º¯°æ
+		this.colors = initColors(this.points.length, 1, 1, 0.1, 1) //shipì˜ ìƒ‰ìƒ ëˆˆì— ìž˜ë„ëŠ” ë…¸ëž‘ìƒ‰ìœ¼ë¡œ ë³€ê²½
 		this.shipBuffer = initBuffer(this.points)
 		this.colorBuffer = initBuffer(this.colors)
 	}
 
-	move() { //¸¶¿ì½º È¸Àü ±â´É Ãß°¡
+	move() { //ë§ˆìš°ìŠ¤ íšŒì „ ê¸°ëŠ¥ ì¶”ê°€
 		counter++
 		// Rotation
 		const padding = 0.05
@@ -392,7 +393,7 @@ class Ship extends Entity {
 
 		entities.forEach(e => {
 			if (e instanceof Enemy) {
-				if (getDistanceFromPointToRay(e.x, e.y, this.x, this.y, x, y) <= e.sizeFactor) e.health -= 10// ÀûµéÀÌ ³Ê¹« ½±°Ô Á×Áö ¾Êµµ·Ï health°ªÀ» ´õ ÀÛ°Ô º¯°æ
+				if (getDistanceFromPointToRay(e.x, e.y, this.x, this.y, x, y) <= e.sizeFactor) e.health -= 10// ì ë“¤ì´ ë„ˆë¬´ ì‰½ê²Œ ì£½ì§€ ì•Šë„ë¡ healthê°’ì„ ë” ìž‘ê²Œ ë³€ê²½
 			}
 		})
 	}
@@ -403,7 +404,7 @@ class Enemy extends Entity {
 		super(initialX, initialY, initialXv, initialYv, shapeData)
 		this.hpBox = null
 		this.sizeFactor = sizeFactor
-		this.health = 1500 * this.sizeFactor //ÀûÀÇ ¼ö¸í °áÁ¤ - Á¶±Ý ´õ ±ä ¼ö¸íÀ¸·Î ¼³Á¤
+		this.health = 1500 * this.sizeFactor //ì ì˜ ìˆ˜ëª… ê²°ì • - ì¡°ê¸ˆ ë” ê¸´ ìˆ˜ëª…ìœ¼ë¡œ ì„¤ì •
 		this.colors = initColors(this.points.length, Math.random(), Math.random(), Math.random(), 1)
 		this.entityBuffer = initBuffer(this.points)
 		this.colorBuffer = initBuffer(this.colors)
@@ -421,7 +422,7 @@ class Enemy extends Entity {
 		if (distanceX > 0) {
 			// If velocity is greater than remaining distance to move to the player, only move the remaining distance
 			if (this.xv > absDistanceX) {
-				this.x -= absDistanceX + 0.5 //ÀûÀÌ ship¿¡ ³Ê¹« µü ´Þ¶óºÙÁö ¾Êµµ·Ï ¼öÁ¤(¿ø·¡´Â 0ÀÌ¾úÀ½)
+				this.x -= absDistanceX + 0.5 //ì ì´ shipì— ë„ˆë¬´ ë”± ë‹¬ë¼ë¶™ì§€ ì•Šë„ë¡ ìˆ˜ì •(ì›ëž˜ëŠ” 0ì´ì—ˆìŒ)
 			} else {
 				this.x -= this.xv
 			}
@@ -494,7 +495,7 @@ class Enemy extends Entity {
 class Laser extends Entity {
 	constructor(initialX, initialY, initialXv, initialYv, shapeData, angle) {
 		super(initialX, initialY, initialXv, initialYv, shapeData)
-		this.colors = initColors(this.points.length, 0.9, 1.0, 0.0, 1) //·¹ÀÌÀú Æ÷ÀÎÅÍÀÇ »ö»ó ³ë¶õ»öÀ¸·Î º¯°æ
+		this.colors = initColors(this.points.length, 0.9, 1.0, 0.0, 1) //ë ˆì´ì € í¬ì¸í„°ì˜ ìƒ‰ìƒ ë…¸ëž€ìƒ‰ìœ¼ë¡œ ë³€ê²½
 		this.pointBuffer = initBuffer(this.points)
 		this.colorBuffer = initBuffer(this.colors)
 		this.angle = angle
@@ -555,7 +556,7 @@ function getLaserShape() {
 
 function getShipShape() {
 	const h = 0.135
-	const d1 = 0.065 // shipÀÇ ¸ð¾çÀ» Á¶±Ý ´õ Å°¿î´Ù.(´«¿¡ ´õ Àß ¶çµµ·Ï)
+	const d1 = 0.065 // shipì˜ ëª¨ì–‘ì„ ì¡°ê¸ˆ ë” í‚¤ìš´ë‹¤.(ëˆˆì— ë” ìž˜ ë„ë„ë¡)
 
 	let p1 = vec3(d1, 0.0, 1.0)
 	let p2 = vec3(0, h, 1.0)
@@ -565,7 +566,7 @@ function getShipShape() {
 
 function getEnemyShape(radius) {
 	// Generate random shapes with at minimum 4 vertices
-	const numPoints = Math.floor(Math.random() * 7) + 4 // ³¯¾Æ¿À´Â ÀûÀÇ ¸ð¾çÀÌ ´õ ´Ù¾çÇÏµµ·Ï ´õ Å« ¼ö¸¦ °öÇØÁÜ
+	const numPoints = Math.floor(Math.random() * 7) + 4 // ë‚ ì•„ì˜¤ëŠ” ì ì˜ ëª¨ì–‘ì´ ë” ë‹¤ì–‘í•˜ë„ë¡(ê¼­ì§“ì ì˜ ìˆ˜ ì¦ê°€ì‹œí‚´) ë” í° ìˆ˜(6->7)ë¥¼ ê³±í•´ì¤Œ
 	// console.log(`Generating enemy shape with ${numPoints} points.`)
 	const angle = 2 * Math.PI / numPoints
 	let shapePoints = []
@@ -653,4 +654,5 @@ function gameOver() {
 	document.getElementById("container").appendChild(endScreen)
 	console.log("game over")
 }
+
 
