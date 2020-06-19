@@ -655,4 +655,4 @@ function gameOver() {
 	console.log("game over")
 }
 
-
+//끝
